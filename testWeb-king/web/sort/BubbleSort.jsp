@@ -1,7 +1,7 @@
 <%--
   Created by IntelliJ IDEA.
   User: apple
-  Date: 2019/2/26
+  Date: 2019/2/20
   Time: 下午5:47
   To change this template use File | Settings | File Templates.
 --%>
@@ -11,127 +11,88 @@
     <title>冒泡排序算法</title>
     <meta charset="UTF-8">
     <style>
-        #main {
-            width: 600px;
-            height: 200px;
-            position: relative;
+        #boxes{
+            border:1px solid grey;
+            width:1320px;
+            height:300px;
+            margin-top:10px;
+            position:relative;
+        }
+        .box{
+            background:red;
+            width:20px;
+            line-height:30px;
+            text-align:center;
+            font-family:Microsoft Yahei;
+            font-size:15px;
+            color:white;
+            margin:0 1px;
+            position:absolute;
         }
     </style>
 
-    <script language="JavaScript" type="text/javascript">
-        function runBubbleSort(){
-            var course = document.getElementById("course");
+    <script src="https://d3js.org/d3.v5.min.js" charset="utf-8"></script>
 
-            var a = document.getElementById("sortData").value;
-            var data = new Array(20);
-            var arr = new Array();
+    <script language="JavaScript" type="text/javascript">
+
+        function runBubbleSort(){
+            let course = document.getElementById("course");
+
+            let a = document.getElementById("sortData").value;
+            let data = new Array(20);
+            let arr = new Array();
             data = a.split(",");
             console.log(data);
-            var len = data.length;
-            for (var i = 0; i < len; i++){
+            let len = data.length;
+            for (let i = 0; i < len; i++){
                 arr[i] = parseInt(data[i]); //将字符串数组转化为数字数组
+                // let divElement = document.createElement("div");
+                // let parentElement = document.getElementById("boxes");
+                // divElement.style.left = i * 20 + i * 2 + "px";
+                // divElement.style.top = 300 - 3 * arr[i] + "px";
+                // divElement.style.height = 3 * arr[i] + "px";
+                // divElement.setAttribute("class","box");
+                // parentElement.appendChild(divElement);
             }
             console.log(arr);
-
             bubbleSort(arr);
-
-
-            // var temp;
-            // console.log("长度为："+len);
-            // for(var i = 0; i < len; i++){
-            //     for(var j = 0; j < len - i - 1; j++){
-            //         if(arr[j] > arr[j+1]){
-            //             // console.log(arr[j]+">"+arr[j+1]);
-            //             temp = arr[j];
-            //             arr[j] = arr[j+1];
-            //             arr[j+1] = temp;
-            //             // console.log( "过程：" + arr);
-            //         } else {
-            //             // console.log( "过程：" + arr);
-            //         }
-            //     }
-            //     var count = i + 1;
-            //     console.log( "第"+count+"趟的结果为：" + arr);
-            //     var txt = document.createTextNode("第"+count+"趟的结果为：" + arr);
-            //     course.append(txt);
-            //     // document.getElementById("course").innerText=("第"+count+"趟的结果为：" + arr);
-            // }
-            //
-            // console.log("最终结果为:"+arr);
-            // document.getElementById("result").innerText=("最终结果为:"+arr);
-            // return arr;
+            // sort(arr);
         }
 
-        function bubbleSort(arr) {
-
-            animation();
-
-            // 冒泡排序算法，对数组进行排序，同时记录每一步操作，保存在一个数组中
-            function sort() {
-                // virtualArr 用来存放 每一个步内容的数组
-                var virtualArr = [arr.slice()]; //slice() 方法可从已有的数组中返回选定的元素。
-                var max = arr.length;
-                for (var i = 0; i < max; i++) {
-                    var done = true;
-                    for (var j = 0; j < max - i; j++) {
-                        if (arr[j] > arr[j + 1]) {
-                            var temp = arr[j];
-                            arr[j] = arr[j + 1];
-                            arr[j + 1] = temp;
-                            done = false;
-                            virtualArr.push(arr.slice());
+        function sort(numbers){
+            let parentElement = document.getElementById("boxes");
+            let i = 0, j = 0;
+            let time = setInterval(function() {
+                if (i < numbers.length) {
+                    if (j < numbers.length - i) {
+                        if (numbers[j] > numbers[j + 1]) {
+                            let temp = numbers[j];
+                            numbers[j] = numbers[j + 1];
+                            numbers[j + 1] = temp;
+                            parentElement.innerHTML = "";
+                            for (let k = 0; k < numbers.length; k++) {
+                                let textNode = document.createTextNode(numbers[k]);
+                                let divElement = document.createElement("div");
+                                divElement.appendChild(textNode);
+                                divElement.style.left = k * 20 + k * 2 + "px";
+                                divElement.style.top = 300 - 3 * numbers[k] + "px";
+                                divElement.style.height = 3 * numbers[k] + "px";
+                                divElement.setAttribute("class","box");
+                                parentElement.appendChild(divElement);
+                            }
                         }
-                    };
-                    if(done){
-                        break;
-                    };
+                        j++;
+                    }
+                    else{
+                        i++;
+                        j = 0;
+                    }
                 }
-                console.log(virtualArr);
-                return virtualArr;
-            }
-
-            // 绘画，调用一次就画出一步的图像
-            function darw(arr){
-                // console.log(arr);
-                var canvas = document.getElementById('myCanvas');
-                var ctx = canvas.getContext('2d'); //getContext() 方法返回一个用于在画布上绘图的环境。
-                // 获取 canvas画板的高度(确定每个长方形的 y 值时需要)
-                var maxWidth = canvas.height;
-                // 每个长方形的宽度
-                var width = 20;
-                // 每个长方形之间的间隔
-                var space =20;
-                // 清空画布
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                // 设置字体
-                ctx.font = "18px serif";
-                // 在页面上，画出一步的内容
-                for (var i = 0; i < arr.length; i++) {
-                    ctx.fillStyle = '#61C5FE';
-                    // x 的 值等于 第i个长方形 * （长方形的宽+每个长方形的间隔）
-                    // y 的 值等于  画板的高度 - 第i的元素的值
-                    ctx.fillRect(i * (width+space), maxWidth - arr[i], width, arr[i]);
-                    ctx.fillStyle = '#240be4';
-                    // maxWidth - arr[i]-5，这里多- 5，是为了能让文字，在长方形上方一点显示，看的明显些
-                    ctx.fillText(arr[i], i * (width+space), maxWidth - arr[i]-5);
+                else {
+                    clearInterval(time);
+                    return;
                 }
-            }
-
-            // 动画
-            function animation() {
-                // 调用sort 方法，返回包括每一步内容的数组
-                var virtualArr = sort();
-                var interval =500;
-                // 遍历得到的数组，每隔500ms，调用darw 方法，画出一步内容
-
-                // virtualArr.forEach((item, index) => {
-                //     setTimeout(darw(item), i * interval);
-                // });
-                for(var i = 0; i < virtualArr.length; i++){
-                    setTimeout(darw(virtualArr), i * interval);
-                }
-            }
-
+            }, 100);
         }
     </script>
 </head>
@@ -142,11 +103,100 @@
     <input id="sortData" type="text">
     <button onclick="runBubbleSort()">执行</button>
 
-    <div id="course"></div>
-    <p id="result"></p>
+    <%--<div id="boxes"></div>--%>
+    <svg width="960" height="600"></svg>
+<script>
+    function draw(dataset) {
+        let marge = {top:60,bottom:20,left:60,right:60};
 
-    <div id="main">
-        <canvas id="myCanvas" width="600" height="200"> </canvas>
-    </div>
+        let svg = d3.select("svg");//得到SVG画布
+        let width = svg.attr("width");//得到画布的宽
+        let height = svg.attr("height");//得到画布的长
+        let g = svg.append("g")
+            .attr("transform","translate("+marge.top+","+marge.left+")");
+
+        console.log("得到："+dataset);
+
+        let xScale = d3.scaleBand()
+            .domain(d3.range(dataset.length))
+            .rangeRound([0,width-marge.left-marge.right]);
+        let xAxis = d3.axisBottom(xScale);
+
+        let yScale = d3.scaleLinear()
+            .domain([0,d3.max(dataset)])
+            .range([height-marge.top-marge.bottom,0]);
+        let yAxis = d3.axisLeft(yScale);
+
+        g.append("g")
+            .attr("transform","translate("+0+","+(height-marge.top-marge.bottom)+")")
+            .call(xAxis);
+        g.append("g")
+            .attr("transform","translate(0,0)")
+            .call(yAxis);
+
+        //绘制矩形和文字
+        let gs = g.selectAll(".rect")
+            .data(dataset)
+            .enter()
+            .append("g");
+
+        //绘制矩形
+        let rectPadding = 20;//矩形之间的间隙
+        gs.append("rect")
+            .attr("x",function(d,i){
+                return xScale(i)+rectPadding/2;
+            })
+            .attr("y",function(d){
+                return yScale(d);
+            })
+            .attr("width",function(){
+                return xScale.step()-rectPadding;
+            })
+            .attr("height",function(d){
+                return height-marge.top-marge.bottom-yScale(d);
+            })
+            .attr("fill","blue")
+
+        //绘制文字
+        gs.append("text")
+            .attr("x",function(d,i){
+                return xScale(i)+rectPadding/2;
+            })
+            .attr("y",function(d){
+                return yScale(d);
+            })
+            .attr("dx",function(){
+                (xScale.step()-rectPadding)/2;
+            })
+            .attr("dy",20)
+            .text(function(d){
+                return d;
+            })
+    }
+
+    function bubbleSort(arr) {
+        console.log("hhh:"+arr);
+        let len = arr.length;
+        let temp;
+        let svg = d3.select("svg");//得到SVG画布
+        draw(arr);
+
+        for(let i = 0; i < len; i++){
+            for(let j = 0; j < len - i - 1; j++){
+                if(arr[j] > arr[j+1]){
+                    temp = arr[j];
+                    arr[j] = arr[j+1];
+                    arr[j+1] = temp;
+                    setTimeout(function(){
+                        svg.html("");
+                        draw(arr);
+                    },1000);
+                }
+            }
+        }
+        return arr;
+    }
+
+</script>
 </body>
 </html>

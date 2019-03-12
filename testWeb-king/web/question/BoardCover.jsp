@@ -36,7 +36,7 @@
                         td.style.border='1px solid #ccc';
                     }
                 }
-            }
+            };
             var Out=document.getElementsByTagName('input')[4];
             var Matrix = new Array();
             for(var i=0;i<100; i++)
@@ -63,7 +63,7 @@
                         table.rows[r].cells[c].style.background='rgb('+13*q%256+','+43*q%256+','+73*q%256+')';
                     }
                 }
-            }
+            };
             var nCount = 0;
             function chessBoard(tr,tc,dr,dc,size)
             {
@@ -114,8 +114,8 @@
             y:<input type="text" name="Y" size="25" />
         </p>
         <p>
-            <input type="button" value="设置棋盘参数" />
             <input type="button" value="生成棋盘" />
+            <input type="button" value="覆盖棋盘" />
         </p>
     </div>
     <div id="chess">

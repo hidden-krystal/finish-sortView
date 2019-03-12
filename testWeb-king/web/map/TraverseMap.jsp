@@ -414,7 +414,7 @@
                 textStr += '<text x="'+textcx+'" y="'+textcy+'" fill="white">'+nodes[i].data+'</text>';
             }
             svg.innerHTML = lineStr+circleStr+textStr;
-        }
+        };
 
 
         var tree = new BinaryTree();
@@ -459,7 +459,7 @@
                         button.click = true;
                         console.log("OK");
                     }
-                },400*i,i);
+                },1000*i,i);
             }
         });
 
